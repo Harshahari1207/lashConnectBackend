@@ -23,7 +23,9 @@ export const getCameraStream =
         cameraId,
         req.user!.id
       );
-
+    console.log(
+      `Camera ${cameraId} stream info: ${JSON.stringify(stream)}`
+    )
     return res.json({
       success: true,
       data: stream

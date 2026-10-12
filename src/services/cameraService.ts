@@ -7,7 +7,7 @@ export const getCameraStreamInfo =
   ) => {
     const device =
       await Device.findOne({
-        _id: deviceId,
+        deviceId: deviceId,
         ownerId: userId,
         type: "camera"
       }).select(
@@ -32,6 +32,8 @@ export const getCameraStreamInfo =
        */
 
       streamPath:
-        device.streamPath
+        device.streamPath,
+      rtspUrl:
+        device.rtspUrl
     };
   };

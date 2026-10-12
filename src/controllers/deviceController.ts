@@ -1,6 +1,7 @@
 import {
   Request,
-  Response
+  Response,
+  NextFunction
 } from "express";
 
 import Device from "../models/Device";
@@ -27,31 +28,31 @@ export const getDevices =
     });
   };
 
-export const getDevice =
-  async (
-    req: Request,
-    res: Response
-  ) => {
-    const device =
-      await Device.findOne({
-        _id: req.params.id,
-        ownerId: req.user!.id
-      }).select(
-        "-pairingTokenHash -pairingExpiresAt -rtspUrl"
-      );
+export const getDevice = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+
+    const device = await Device.findOne({ deviceId: id });
 
     if (!device) {
       return res.status(404).json({
         success: false,
-        message: "Device not found"
+        message: "Device not found",
       });
     }
 
-    return res.json({
+    return res.status(200).json({
       success: true,
-      data: device
+      data: device,
     });
-  };
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const pairDevice =
   async (
