@@ -1,25 +1,43 @@
+
 import { Router } from "express";
+import { authenticate } from "../middleware/authMiddleware";
+import { asyncHandler } from "../utils/asyncHandler";
 
 import {
-  authenticate
-} from "../middleware/authMiddleware";
-
-import {
-  getRecordings
+  createRecording,
+  finishRecording,
+  getRecordings,
+  getRecording,
+  streamRecording,
 } from "../controllers/recordingController";
 
-import {
-  asyncHandler
-} from "../utils/asyncHandler";
-
-const router =
-  Router();
+const router = Router();
 
 router.use(authenticate);
 
+router.post(
+  "/start",
+  asyncHandler(createRecording)
+);
+
+router.post(
+  "/:id/stop",
+  asyncHandler(finishRecording)
+);
+
 router.get(
-  "/device/:deviceId",
+  "/",
   asyncHandler(getRecordings)
+);
+
+router.get(
+  "/:id",
+  asyncHandler(getRecording)
+);
+
+router.get(
+  "/:id/video",
+  asyncHandler(streamRecording)
 );
 
 export default router;

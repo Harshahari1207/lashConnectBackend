@@ -1,7 +1,5 @@
-import mongoose, {
-  Schema,
-  InferSchemaType
-} from "mongoose";
+
+import mongoose, { Schema } from "mongoose";
 
 const recordingSchema = new Schema(
   {
@@ -9,56 +7,53 @@ const recordingSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Device",
       required: true,
-      index: true
+      index: true,
     },
-
+    ownerId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      index: true,
+    },
     startTime: {
       type: Date,
-      required: true
+      required: true,
+      default: Date.now,
     },
-
-    endTime: {
-      type: Date,
-      required: true
-    },
-
+    endTime: Date,
     durationSeconds: {
       type: Number,
-      required: true
+      default: 0,
     },
-
     storageType: {
       type: String,
-      enum: [
-        "local",
-        "cloud"
-      ],
-      required: true
+      enum: ["local", "cloud"],
+      default: "local",
     },
-
-    fileUrl: {
-      type: String
+    fileUrl: String,
+    filePath: {
+      type: String,
+      select: false,
     },
-
-    thumbnailUrl: {
-      type: String
+    thumbnailUrl: String,
+    sizeBytes: Number,
+    status: {
+      type: String,
+      enum: ["recording", "completed", "failed"],
+      default: "recording",
+      index: true,
     },
-
-    sizeBytes: {
-      type: Number
-    }
+    errorMessage: String,
   },
-  {
-    timestamps: true
-  }
+  { timestamps: true }
 );
 
-export type Recording =
-  InferSchemaType<
-    typeof recordingSchema
-  >;
+recordingSchema.index({
+  ownerId: 1,
+  startTime: -1,
+});
 
 export default mongoose.model(
   "Recording",
   recordingSchema
-);  
+);
