@@ -1,6 +1,7 @@
+
 import mongoose, {
   Schema,
-  InferSchemaType
+  InferSchemaType,
 } from "mongoose";
 
 const userSchema = new Schema(
@@ -10,7 +11,7 @@ const userSchema = new Schema(
       required: true,
       trim: true,
       minlength: 2,
-      maxlength: 100
+      maxlength: 100,
     },
 
     email: {
@@ -19,41 +20,46 @@ const userSchema = new Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true
+      index: true,
     },
 
     password: {
       type: String,
       required: true,
       minlength: 8,
-      select: false
+      select: false,
+    },
+
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: 20,
+    },
+
+    city: {
+      type: String,
+      trim: true,
+      default: "",
+      maxlength: 100,
     },
 
     role: {
       type: String,
-      enum: [
-        "admin",
-        "operator",
-        "viewer"
-      ],
-      default: "viewer"
+      enum: ["admin", "operator", "viewer"],
+      default: "viewer",
     },
 
     isActive: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
-export type User = InferSchemaType<
-  typeof userSchema
->;
+export type User = InferSchemaType<typeof userSchema>;
 
-export default mongoose.model(
-  "User",
-  userSchema
-);
+export default mongoose.model("User", userSchema);
