@@ -12,6 +12,9 @@ import {
 import {
   asyncHandler
 } from "../utils/asyncHandler";
+import {
+  getAnalytics
+} from "../controllers/alertAnalyticsController";
 
 const router =
   Router();
@@ -26,6 +29,11 @@ router.get(
 router.patch(
   "/:id/read",
   asyncHandler(markAlertRead)
+);
+
+router.get(
+  "/analytics",
+  asyncHandler(getAnalytics)
 );
 
 export default router;
