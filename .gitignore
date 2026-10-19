@@ -3,3 +3,6 @@ node_modules
 recordings/
 
 
+detector/.venv/
+detector/*.pt
+detector/__pycache__/

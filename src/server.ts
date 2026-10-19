@@ -1,5 +1,6 @@
 import app from "./app";
 import { connectDatabase } from "./config/database";
+import { startDetector } from "./services/detectorProcess";
 import { env } from "./config/environment";
 
 console.log("1. server.ts loaded");
@@ -19,6 +20,8 @@ const startServer = async () => {
       );
     });
 
+    startDetector();
+    
   } catch (error) {
     console.error("❌ SERVER STARTUP ERROR:");
     console.error(error);

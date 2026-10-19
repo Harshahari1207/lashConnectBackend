@@ -16,6 +16,9 @@ import recordingRoutes from "./routes/recordingRoutes";
 import cameraRoutes from "./routes/cameraRoutes";
 
 import profileRoutes from "./routes/profileRoutes";
+
+import detectionRoutes from "./routes/detectionRoutes";
+
 import { notFoundMiddleware } from "./middleware/notFoundMiddleware";
 
 import { errorMiddleware } from "./middleware/errorMiddleware";
@@ -77,6 +80,10 @@ app.use("/api/recordings", recordingRoutes);
 
 app.use("/api/cameras", cameraRoutes);
 app.use("/api/profile", profileRoutes);
+app.use("/api/alerts", alertRoutes);
+
+app.use("/api/detection-events", detectionRoutes);
+
 
 app.use(notFoundMiddleware);
 
